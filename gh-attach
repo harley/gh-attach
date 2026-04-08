@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+if [[ -x "$SCRIPT_DIR/bin/gh-attach" ]]; then
+  exec "$SCRIPT_DIR/bin/gh-attach" "$@"
+fi
+
+if ! command -v go >/dev/null 2>&1; then
+  echo "error: go is required to run gh-attach from source" >&2
+  echo "build with: go build -o bin/gh-attach ./cmd/gh-attach" >&2
+  exit 1
+fi
+
+exec go run "$SCRIPT_DIR/cmd/gh-attach" "$@"

@@ -1,0 +1,6 @@
+/bin/
+/.cache/
+/dist/
+/.DS_Store
+/.idea/
+/.vscode/
