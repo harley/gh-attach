@@ -1,0 +1,24 @@
+{
+  "name": "marketing",
+  "version": "1.0.0",
+  "description": "Remotion marketing assets for gh-attach",
+  "scripts": {
+    "render:video": "remotion render src/index.ts GhAttachPromo renders/gh-attach-promo.mp4",
+    "render:still": "remotion still src/index.ts GhAttachStill renders/gh-attach-still.png",
+    "studio": "remotion studio src/index.ts"
+  },
+  "keywords": [
+    "remotion",
+    "marketing"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@remotion/cli": "^4.0.446",
+    "@remotion/google-fonts": "^4.0.446",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "remotion": "^4.0.446",
+    "typescript": "^6.0.2"
+  }
+}
