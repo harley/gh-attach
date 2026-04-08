@@ -48,5 +48,6 @@ gh attach pr create \
 
 - Native upload requires an authenticated GitHub browser session
 - If browser cookie discovery does not work on your machine, set `GH_ATTACH_USER_SESSION`
+- On macOS, `gh-attach` also checks known Chromium-clone stores such as `Comet`
 - `--fill`, `--fill-first`, and `--fill-verbose` are not supported with `--attach` yet
 - The first cut is optimized for private-repo screenshots and attachments, not CI automation
