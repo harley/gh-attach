@@ -24,6 +24,9 @@ gh attach --help
 gh attach upload screenshot.png
 gh attach screenshot.png
 
+# Diagnose browser-session discovery without printing cookie values
+gh attach doctor
+
 # Create a PR with uploaded attachments appended to the body
 gh attach pr create \
   --attach screenshot.png \
@@ -47,6 +50,8 @@ gh attach pr create \
 ## Constraints
 
 - Native upload requires an authenticated GitHub browser session
-- If browser cookie discovery does not work on your machine, set `GH_ATTACH_USER_SESSION`
+- Cookie discovery supports Chrome, Chromium, Brave, and Edge through the public `kooky` library
+- If browser cookie discovery does not work on your machine, run `gh attach doctor`, then sign in with a supported browser or set `GH_ATTACH_USER_SESSION`
+- On macOS, cookie decryption depends on the browser's Safe Storage key in the login Keychain. `gh attach doctor` reports Keychain access failures with recovery guidance
 - `--fill`, `--fill-first`, and `--fill-verbose` are not supported with `--attach` yet
 - The first cut is optimized for private-repo screenshots and attachments, not CI automation
