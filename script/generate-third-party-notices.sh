@@ -3,9 +3,12 @@
 set -euo pipefail
 
 output="${1:-THIRD_PARTY_NOTICES.txt}"
+if [[ "$output" != /* ]]; then
+  output="$PWD/$output"
+fi
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 work_dir="$(mktemp -d)"
-trap 'rm -rf "$work_dir"' EXIT
+trap '[[ -n "${work_dir:-}" ]] && rm -rf "$work_dir"' EXIT
 
 targets=(
   darwin-amd64
@@ -46,7 +49,7 @@ sort -u "$work_dir/modules" | sed '/^[[:space:]]*$/d' > "$work_dir/modules.sorte
 
     license_file_list="$work_dir/license-files"
     find "$directory" -maxdepth 2 -type f \
-      \( -iname 'LICENSE*' -o -iname 'COPYING*' -o -iname 'NOTICE*' \) \
+      \( -iname '*LICENSE*' -o -iname '*LICENCE*' -o -iname 'COPYING*' -o -iname 'NOTICE*' \) \
       | sort > "$license_file_list"
 
     if [[ ! -s "$license_file_list" ]]; then
