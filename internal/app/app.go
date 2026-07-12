@@ -3,6 +3,8 @@ package app
 import (
 	"fmt"
 	"strings"
+
+	"github.com/harley/gh-attach/internal/browser"
 )
 
 const usage = `gh-attach
@@ -10,6 +12,7 @@ const usage = `gh-attach
 Usage:
   gh attach upload [--repo owner/repo] [--json] <file>...
   gh attach pr create [--repo owner/repo] --attach <file>... [gh pr create flags...]
+  gh attach doctor
 
 Shortcuts:
   gh attach <file>...                              Upload files and print markdown
@@ -33,11 +36,21 @@ func Run(args []string) error {
 		return nil
 	case args[0] == "upload":
 		return runUpload(args[1:])
+	case isDoctorCommand(args):
+		if len(args) > 1 {
+			return fmt.Errorf("doctor command does not accept arguments: %s", strings.Join(args[1:], " "))
+		}
+		fmt.Println(browser.Diagnose().String())
+		return nil
 	case len(args) >= 2 && args[0] == "pr" && args[1] == "create":
 		return runPRCreate(args[2:])
 	default:
 		return runUpload(args)
 	}
+}
+
+func isDoctorCommand(args []string) bool {
+	return len(args) > 0 && args[0] == "doctor"
 }
 
 func isHelp(args []string) bool {
