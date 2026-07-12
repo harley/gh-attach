@@ -2,6 +2,7 @@ package browser
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 	"os"
@@ -40,10 +41,10 @@ func GetGitHubSession() (*http.Cookie, error) {
 		return &cookies[0].Cookie, nil
 	}
 	if err != nil {
-		return nil, fmt.Errorf("%s", explainSessionError(err))
+		return nil, errors.New(explainSessionError(err))
 	}
 
-	return nil, fmt.Errorf("%s", explainSessionError(fmt.Errorf("no github.com user_session cookie found")))
+	return nil, errors.New(explainSessionError(errors.New("no github.com user_session cookie found")))
 }
 
 func envSession() (string, string) {
@@ -51,7 +52,7 @@ func envSession() (string, string) {
 		return value, "GH_ATTACH_USER_SESSION"
 	}
 	if value := os.Getenv("GITHUB_USER_SESSION"); value != "" {
-		return value, "GITHUB_USER_SESSION"
+		return value, "GITHUB_USER_SESSION (legacy alias)"
 	}
 	return "", ""
 }
@@ -100,6 +101,9 @@ func (d Diagnostic) String() string {
 }
 
 func explainSessionError(err error) string {
+	if err == nil {
+		return ""
+	}
 	detail := sessionValuePattern.ReplaceAllString(err.Error(), "user_session=[REDACTED]")
 	lower := strings.ToLower(detail)
 

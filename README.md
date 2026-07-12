@@ -52,6 +52,7 @@ gh attach pr create \
 - Native upload requires an authenticated GitHub browser session
 - Cookie discovery supports Chrome, Chromium, Brave, and Edge through the public `kooky` library
 - If browser cookie discovery does not work on your machine, run `gh attach doctor`, then sign in with a supported browser or set `GH_ATTACH_USER_SESSION`
+- `GITHUB_USER_SESSION` remains accepted as a backwards-compatible alias and is identified as legacy by `gh attach doctor`
 - On macOS, cookie decryption depends on the browser's Safe Storage key in the login Keychain. `gh attach doctor` reports Keychain access failures with recovery guidance
 - `--fill`, `--fill-first`, and `--fill-verbose` are not supported with `--attach` yet
 - The first cut is optimized for private-repo screenshots and attachments, not CI automation

@@ -62,3 +62,19 @@ func TestExplainSessionErrorRedactsCookieMaterial(t *testing.T) {
 		t.Fatalf("expected explicit redaction marker:\n%s", message)
 	}
 }
+
+func TestExplainSessionErrorAcceptsNil(t *testing.T) {
+	if message := explainSessionError(nil); message != "" {
+		t.Fatalf("expected no guidance for nil error, got %q", message)
+	}
+}
+
+func TestLegacyEnvironmentOverrideIsClearlyLabeled(t *testing.T) {
+	t.Setenv("GH_ATTACH_USER_SESSION", "")
+	t.Setenv("GITHUB_USER_SESSION", "legacy-value")
+
+	_, source := envSession()
+	if source != "GITHUB_USER_SESSION (legacy alias)" {
+		t.Fatalf("expected legacy alias label, got %q", source)
+	}
+}

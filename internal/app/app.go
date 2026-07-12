@@ -37,6 +37,9 @@ func Run(args []string) error {
 	case args[0] == "upload":
 		return runUpload(args[1:])
 	case isDoctorCommand(args):
+		if len(args) > 1 {
+			return fmt.Errorf("doctor command does not accept arguments: %s", strings.Join(args[1:], " "))
+		}
 		fmt.Println(browser.Diagnose().String())
 		return nil
 	case len(args) >= 2 && args[0] == "pr" && args[1] == "create":
@@ -47,7 +50,7 @@ func Run(args []string) error {
 }
 
 func isDoctorCommand(args []string) bool {
-	return len(args) == 1 && args[0] == "doctor"
+	return len(args) > 0 && args[0] == "doctor"
 }
 
 func isHelp(args []string) bool {
